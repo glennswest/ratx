@@ -1,6 +1,7 @@
 
 include <puzzlecutlib/puzzlecutlib.scad>
 use <MCAD/nuts_and_bolts.scad>;
+use <cgrid.scad>;
 
 bodysize=140;
 insidebody=bodysize-10;
@@ -53,12 +54,9 @@ module cutraidus(h)
 
 }
 
-module bodyring()
+
+module side_bolts()
 {
-    difference(){
-	  cylinder(r=bodysize,h=bodyheight);
-      translate([0,0,-.1]) cylinder(r=bodysize-10,h=bodyheight+.2);
-      
       mount_bolts(-5);
       mount_bolts(-15);
       mount_bolts(90-5);
@@ -67,12 +65,32 @@ module bodyring()
       mount_bolts(180-15);
       mount_bolts(270-5);
       mount_bolts(270-15);
-      }
+}
+
+module bodyring()
+{
     difference(){
-         cylinder(r=bodysize,h=2);
-         translate([0,0,-.1]) cutraidus(h=bodyheight+.1);
-         translate([0,0,-.1]) rotate([0,0,180]) cutraidus(h=bodyheight+.1);
+	  cylinder(r=bodysize,h=bodyheight);
+      translate([0,0,-.1]) cylinder(r=bodysize-10,h=bodyheight+.2);
+      // side_bolts();
+      
+      }
+  difference(){
+         //cylinder(r=bodysize,h=2);
+         translate([0,0,-10]) cgrid(bodysize,12,hs=5,sp=6);
+         translate([0,0,-10.1]) cutraidus(h=bodyheight+10.1);
+         translate([0,0,-10.1]) rotate([0,0,180]) cutraidus(h=bodyheight+10.1);
+	 difference(){
+		 translate([0,0,-10.1]) cylinder(r=bodysize-10,h=10);
+		 translate([0,0,-10.1]) cylinder(r=bodysize-15,h=10);
+	         }
          }
+   //difference(){
+   //      //cylinder(r=bodysize,h=8);
+   //      translate([0,0,-10]) cgrid(bodysize-15,2,hs=5,sp=6);
+   //      translate([0,0,-10.1]) cutraidus(h=bodyheight+.1);
+   //      translate([0,0,-10.1]) rotate([0,0,180]) cutraidus(h=bodyheight+.1);
+  //       }
    difference(){
        translate([0,0,-10]) cylinder(r=bodysize,h=10);
        translate([0,0,-10.1]) cylinder(r=bodysize-5,h=10.1);
