@@ -76,8 +76,8 @@ module bodyring()
       
       }
   difference(){
-         //cylinder(r=bodysize,h=2);
-         translate([0,0,-10]) cgrid(bodysize,12,hs=5,sp=6);
+         translate([0,0,-10]) cylinder(r=bodysize,h=12);
+         //translate([0,0,-10]) cgrid(bodysize,12,hs=5,sp=6);
          translate([0,0,-10.1]) cutraidus(h=bodyheight+10.1);
          translate([0,0,-10.1]) rotate([0,0,180]) cutraidus(h=bodyheight+10.1);
 	 difference(){
