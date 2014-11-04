@@ -3,6 +3,7 @@ include <puzzlecutlib/puzzlecutlib.scad>
 use <MCAD/nuts_and_bolts.scad>;
 use <cgrid.scad>;
 
+$fn=500;
 bodysize=140;
 insidebody=bodysize-10;
 bodyheight=50;
