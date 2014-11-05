@@ -5,7 +5,7 @@ use <cgrid.scad>;
 
 $fn=500;
 bodysize=140;
-insidebody=bodysize-10;
+insidebody=bodysize-5;
 bodyheight=50;
 
 stampSize = [500,500,200];		//size of cutting stamp (should cover 1/2 of object)
@@ -73,33 +73,20 @@ module bodyring()
     difference(){
 	  cylinder(r=bodysize,h=bodyheight);
       translate([0,0,-.1]) cylinder(r=bodysize-10,h=bodyheight+.2);
-      // side_bolts();
-      
       }
   difference(){
          translate([0,0,-10]) cylinder(r=bodysize,h=12);
-         //translate([0,0,-10]) cgrid(bodysize,12,hs=5,sp=6);
-         translate([0,0,-10.1]) cutraidus(h=bodyheight+10.1);
-         translate([0,0,-10.1]) rotate([0,0,180]) cutraidus(h=bodyheight+10.1);
+         translate([0,0,-10.1]) cutraidus(h=bodyheight+12.1);
+         translate([0,0,-10.1]) rotate([0,0,180]) cutraidus(h=bodyheight+12.1);
 	 difference(){
 		 translate([0,0,-10.1]) cylinder(r=bodysize-10,h=10);
 		 translate([0,0,-10.1]) cylinder(r=bodysize-15,h=10);
 	         }
+	 bottom_bolts(45);
+         bottom_bolts(45+90);
+         bottom_bolts(45+180);
+         bottom_bolts(45+270);	 
          }
-   //difference(){
-   //      //cylinder(r=bodysize,h=8);
-   //      translate([0,0,-10]) cgrid(bodysize-15,2,hs=5,sp=6);
-   //      translate([0,0,-10.1]) cutraidus(h=bodyheight+.1);
-   //      translate([0,0,-10.1]) rotate([0,0,180]) cutraidus(h=bodyheight+.1);
-  //       }
-   difference(){
-       translate([0,0,-10]) cylinder(r=bodysize,h=10);
-       translate([0,0,-10.1]) cylinder(r=bodysize-5,h=10.1);
-       bottom_bolts(45);
-       bottom_bolts(45+90);
-       bottom_bolts(45+180);
-       bottom_bolts(45+270);
-       }
    difference(){
        translate([0,0,bodyheight]) cylinder(r=bodysize-5,h=10);
        translate([0,0,bodyheight - .1]) cylinder(r=bodysize-5-5,h=10.2);
@@ -113,8 +100,9 @@ module bodyring()
 
 module enclosure()
 {
+	
 	bodyring();
-	translate([-85,-85,0]) pcatx_base();
+	translate([0,0,2]) pcatx_base();
 
 }
 
