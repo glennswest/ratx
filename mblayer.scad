@@ -2,6 +2,7 @@
 include <puzzlecutlib/puzzlecutlib.scad>
 use <MCAD/nuts_and_bolts.scad>;
 use <cgrid.scad>;
+use <bodyring.scad>;
 
 $fn=500;
 bodysize=133;
@@ -19,24 +20,6 @@ kerf = 0;		//supports +/- numbers (greater value = tighter fit)
 					//using a small negative number may be useful to assure easy fit for 3d printing
 					//using positive values useful for lasercutting
 					//negative values can also help visualize cuts without seperating pieces
-
-
-module mount_bolts(angle)
-{
-    rotate([0,0,angle]) translate([-25,bodysize-5,bodyheight/2+10]) rotate([90,0,0]) boltHole(5,length=30);
-    rotate([0,0,angle]) translate([-25,bodysize-5,bodyheight/2-10]) rotate([90,0,0]) boltHole(5,length=30);
-
-}
-
-module layer_bolts(angle)
-{
-    rotate([0,0,angle]) translate([0,bodysize,bodyheight+5]) rotate([90,0,0]) boltHole(3,length=15);
-}
-
-module bottom_bolts(angle)
-{
-    rotate([0,0,angle]) translate([0,bodysize,-5]) rotate([90,0,0]) boltHole(4,length=15);
-}
 
 
 module motherboard()
@@ -61,26 +44,6 @@ module cutraidus(h)
 }
 
 
-module side_bolts()
-{
-      mount_bolts(-5);
-      mount_bolts(-15);
-      mount_bolts(90-5);
-      mount_bolts(90-15);
-      mount_bolts(180-5);
-      mount_bolts(180-15);
-      mount_bolts(270-5);
-      mount_bolts(270-15);
-}
-
-module bodybar()
-{
-difference(){
-         translate([0,0,-10]) cylinder(r=bodysize,h=12);
-         translate([0,0,-10.1]) cutraidus(h=bodyheight+12.1);
-         translate([0,0,-10.1]) rotate([0,0,180]) cutraidus(h=bodyheight+12.1);
-         }
-}
 
 
 module screw_body(height)
@@ -99,35 +62,17 @@ module screw_stalk(sx,sy,ax,ay){
        }
 }
 
-module bodyring()
+module bodylayer()
 {
     translate([bodysize-18,-18,0]) cube([10,36,10]);
     translate([-bodysize+10,-18,0]) cube([10,36,10]);
+    bodyring();
     difference(){
-	  cylinder(r=bodysize,h=bodyheight);
-      translate([0,0,-.1]) cylinder(r=bodysize-10,h=bodyheight+.2);
-      }
-  difference(){
-         translate([0,0,-10]) cylinder(r=bodysize,h=12);
+         translate([0,0,-10]) cylinder(r=bodysize-12,h=12);
          translate([0,0,-10.1]) cutraidus(h=bodyheight+12.1);
          translate([0,0,-10.1]) rotate([0,0,180]) cutraidus(h=bodyheight+12.1);
-	 difference(){
-		 translate([0,0,-10.1]) cylinder(r=bodysize-5,h=10);
-		 translate([0,0,-10.1]) cylinder(r=bodysize-10,h=10);
-	         }
-	    bottom_bolts(45);
-         bottom_bolts(45+90);
-         bottom_bolts(45+180);
-         bottom_bolts(45+270);	 
          }
-   difference(){
-       translate([0,0,bodyheight]) cylinder(r=bodysize-5,h=10);
-       translate([0,0,bodyheight - .1]) cylinder(r=bodysize-5-5,h=10.2);
-       layer_bolts(45);
-       layer_bolts(45+90);
-       layer_bolts(45+180);
-       layer_bolts(45+270);
-       }
+  
      screw_stalk(-80,-51,-78,-22);
      screw_stalk(-80,81,-78,18);
      screw_stalk(80,80,80,18);
@@ -138,7 +83,7 @@ module bodyring()
 module enclosure()
 {
 	
-	bodyring();
+	bodylayer();
 	//translate([0,0,2]) pcatx_base();
 	translate([13,46,4]) rotate([0,180,180]) motherboard();
 }
@@ -146,5 +91,3 @@ module enclosure()
 	enclosure();
     
     
-
-//translate([0,0,+100]) cutraidus();
