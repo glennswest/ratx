@@ -4,8 +4,8 @@ use <MCAD/nuts_and_bolts.scad>;
 use <cgrid.scad>;
 
 $fn=500;
-bodysize=133;
-insidebody=bodysize-5;
+bodysize=130;
+insidebody=bodysize-2;
 bodyheight=30;
 
 stampSize = [500,500,200];		//size of cutting stamp (should cover 1/2 of object)
